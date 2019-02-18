@@ -1,10 +1,10 @@
 
-const Letter = function(Person) {
-	this.Person = Person.toUpperCase();
+var Letter = function(Key) {
+	this.Key = Key.toUpperCase();
 	this.GuessedCorrectly = false;
 	this.showCharacter = function() {
 		if (this.GuessedCorrectly) {
-			console.log(this.character);
+			console.log(this.Key);
 		}
 		else {
 			console.log ("_");

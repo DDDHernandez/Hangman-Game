@@ -1,7 +1,7 @@
 
 var Letter = require("./letter");
 
-const Word = function(TheWord) {
+var Word = function(TheWord) {
     this.TheWord = TheWord;
     this.underscores = [];
     this.letters = [];

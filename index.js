@@ -9,7 +9,7 @@ var isLetter = require('is-letter');
 //Our word bank
 //Choose random word from wordList.
 var userGuessedCorrectly = false;
-var wordList = ["Kansas City", "Lee's Summit", "Grain Valley", "Saint Joseph", "Independence", "Blue Springs", "Smithville", "Columbia", "Maryville"];
+var wordList = ["Kansas City", "Lees Summit", "Grain Valley", "Saint Joseph", "Independence", "Blue Springs", "Smithville", "Columbia", "Maryville"];
 var randomWordtoGuess;
 var KeyWord;
 
@@ -115,32 +115,32 @@ function Usersletterguessed(){
         }
       }
   }
-]).then(function(userguess) {
+]).then(function(guess) {
 	//Convert all letters to upper case.
-    userguess.letter.toUpperCase();
-	console.log("You guessed: " + userguess.letter.toUpperCase());
-	GuessedCorrectly = false;
+    guess.letter.toUpperCase();
+	console.log("You guessed: " + guess.letter.toUpperCase());
+	userGuessedCorrectly = false;
 	//Find out if letter was already guessed by the user. If already guessed by the user, notify the user to enter another letter.
-	if (lettersAlreadyGuessedListArray.indexOf(userguess.letter.toUpperCase()) > -1) {
+	if (lettersAlreadyGuessedListArray.indexOf(guess.letter.toUpperCase()) > -1) {
 		console.log("You already guessed that letter. Enter another one.");
 		console.log("=====================================================================");
 		Usersletterguessed();
 	}
 
 	//If user entered a letter that was not already guessed...
-	else if (lettersAlreadyGuessedListArray.indexOf(userguess.letter.toUpperCase()) === -1) {
+	else if (lettersAlreadyGuessedListArray.indexOf(guess.letter.toUpperCase()) === -1) {
 		//Add letter to list of already guessed letters.
-		AlreadyGuessedList = AlreadyGuessedList.concat(" " + userguess.letter.toUpperCase());
-		lettersAlreadyGuessedListArray.push(userguess.letter.toUpperCase());
+		AlreadyGuessedList = AlreadyGuessedList.concat(" " + guess.letter.toUpperCase());
+		lettersAlreadyGuessedListArray.push(guess.letter.toUpperCase());
 		//Show letters already guessed to user.
-		console.log('Letters already guessed: ') + lettersAlreadyGuessedList, {padding: 1};
+		console.log('Letters already guessed: ') + lettersAlreadyGuessedListArray, {padding: 1};
 
 		//We need to loop through all of the letters in the word, 
 		for (i=0; i < KeyWord.letters.length; i++) {
-			if (userguess.letter.toUpperCase() === KeyWord.letters[i].character && KeyWord.letters[i].GuessedCorrectly === false) {
+			if (guess.letter.toUpperCase() === KeyWord.letters[i].Key && KeyWord.letters[i].GuessedCorrectly === false) {
 				KeyWord.letters[i].GuessedCorrectly === true;
-				GuessedCorrectly = true;
-				KeyWord.underscores[i] = userguess.letter.toUpperCase();
+				userGuessedCorrectly = true;
+				KeyWord.underscores[i] = guess.letter.toUpperCase();
 				spacesFilled++
 			}
 		}
@@ -177,7 +177,7 @@ function DidUserWin() {
         console.log("===================================================================");
 		console.log("Losses: " + losses);
 		console.log("Wins: " + wins);
-		playAgain();
+		Retry();
 	}
 
 	//if the number of slots filled equals the number of letters in the word, user wins.
