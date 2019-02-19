@@ -8,23 +8,23 @@ var isLetter = require('is-letter');
 //When user guesses correctly, set this variable to true for that letter. The default value will be false.
 //Our word bank
 //Choose random word from wordList.
-var userGuessedCorrectly = false;
-var wordList = ["Kansas City", "Lees Summit", "Grain Valley", "Saint Joseph", "Independence", "Blue Springs", "Smithville", "Columbia", "Maryville"];
+var PlayerGuessedCorrect = false;
+var wordList = ["KansasCity", "LeesSummit", "GrainValley", "SaintJoseph", "Independence", "BlueSprings", "Smithville", "Columbia", "Maryville"];
 var randomWordtoGuess;
 var KeyWord;
 
 //Counters for wins, losses, and guesses remaining.
+var guessesthatRemain = 12;
 var wins = 0;
 var losses = 0;
-var guessesthatRemain = 12;
+
 
 //Creating a variable to hold the letter that the user enters at the inquirer prompt.
 var userGuess = "";
-
-var AlreadyGuessedList = "";
-var lettersAlreadyGuessedListArray = [];
-
 var spacesFilled = 0;
+var TheGuessedList = "";
+var lettersGuessedList = [];
+
 Game();
 //When user enters game, convert "Hangman Game" text characters to drawings using figlet npm package.
 function Game(err, data) {
@@ -35,19 +35,19 @@ function Game(err, data) {
     }
     console.log(data)
     console.log("Welcome to Hangman!");
-    console.log("The Theme is cities around the KC Metro Area...");
+    console.log("The theme is cities around the KC Metro Area...");
     var Instructions = 
     "How to play" + "\r\n" +
-    "==========================================================================================================" + "\r\n" +
+    "=====================================================================================================" + "\r\n" +
     "When the game begins you will be propmted to enter a letter(a-z)." + "\r\n" +
-    "If the letter you guessed is incorrect then you will not see the letter you guessed and" + "\r\n" + 
+    "If the letter you guess is incorrect then you will not see the letter you guess and" + "\r\n" + 
     "for every guess, the number of guesses decrease by 1." + "\r\n" +
-    "If the letter you guees is correct then your guess will appear on the screen." + "\r\n" +
+    "If the letter you guess is correct then your guess will appear on the screen." + "\r\n" +
     "If you guess all the letters in the word without running out of guesses, you win." + "\r\n" +
     "If you fail to do so then you lose. Game over." + "\r\n" +
-    "===========================================================================================================" + "\r\n" +
+    "======================================================================================================" + "\r\n" +
     "You can exit the game at any time by pressing Ctrl + C on your keyboard." + "\r\n" +
-    "===========================================================================================================" 
+    "======================================================================================================" 
     console.log(Instructions);
     Startup();
 };
@@ -84,8 +84,8 @@ function Startup() {
 function startGame(){
 	guessesthatRemain = 12;
 	RandomWord();
-	AlreadyGuessedList = "";
-	lettersAlreadyGuessedListArray = [];
+	TheGuessedList = "";
+	lettersGuessedList = [];
 }
 
 //Function to choose a random word from the list of cities in the word bank array.
@@ -96,11 +96,11 @@ console.log("Your word contains " + randomWordtoGuess.length + " letters.");
 console.log("WORD TO GUESS:");
 KeyWord.space();
 KeyWord.CreateLetters();
-Usersletterguessed();
+Usersguessedletter();
 }
 
 //Function that will prompt the user to enter a letter. This letter is the user's guess.
-function Usersletterguessed(){
+function Usersguessedletter(){
 	if (spacesFilled < KeyWord.letters.length || guessesthatRemain > 0) {
 	inquirer.prompt([
   {
@@ -119,27 +119,25 @@ function Usersletterguessed(){
 	//Convert all letters to upper case.
     guess.letter.toUpperCase();
 	console.log("You guessed: " + guess.letter.toUpperCase());
-	userGuessedCorrectly = false;
+	PlayerGuessedCorrect = false;
 	//Find out if letter was already guessed by the user. If already guessed by the user, notify the user to enter another letter.
-	if (lettersAlreadyGuessedListArray.indexOf(guess.letter.toUpperCase()) > -1) {
+	if (lettersGuessedList.indexOf(guess.letter.toUpperCase()) > -1) {
 		console.log("You already guessed that letter. Enter another one.");
 		console.log("=====================================================================");
-		Usersletterguessed();
+		Usersguessedletter();
 	}
 
 	//If user entered a letter that was not already guessed...
-	else if (lettersAlreadyGuessedListArray.indexOf(guess.letter.toUpperCase()) === -1) {
-		//Add letter to list of already guessed letters.
-		AlreadyGuessedList = AlreadyGuessedList.concat(" " + guess.letter.toUpperCase());
-		lettersAlreadyGuessedListArray.push(guess.letter.toUpperCase());
-		//Show letters already guessed to user.
-		console.log('Letters already guessed: ') + lettersAlreadyGuessedListArray, {padding: 1};
+	else if (lettersGuessedList.indexOf(guess.letter.toUpperCase()) === -1) {
+		TheGuessedList = TheGuessedList.concat(" " + guess.letter.toUpperCase());
+		lettersGuessedList.push(guess.letter.toUpperCase());
+		console.log('Letters already guessed: ' + TheGuessedList);
 
 		//We need to loop through all of the letters in the word, 
 		for (i=0; i < KeyWord.letters.length; i++) {
 			if (guess.letter.toUpperCase() === KeyWord.letters[i].Key && KeyWord.letters[i].GuessedCorrectly === false) {
 				KeyWord.letters[i].GuessedCorrectly === true;
-				userGuessedCorrectly = true;
+				PlayerGuessedCorrect = true;
 				KeyWord.underscores[i] = guess.letter.toUpperCase();
 				spacesFilled++
 			}
@@ -149,7 +147,7 @@ function Usersletterguessed(){
 		KeyWord.CreateLetters();
 
 		//If user guessed correctly...
-		if (userGuessedCorrectly) {
+		if (PlayerGuessedCorrect) {
 			console.log('CORRECT!');
 			console.log("=====================================================================");
 			DidUserWin();
@@ -193,7 +191,7 @@ function DidUserWin() {
 	}
 
 	else {
-		Usersletterguessed("");
+		Usersguessedletter("");
 	}
 
 }
@@ -212,8 +210,8 @@ function Retry() {
 	inquirer.prompt(playAgain).then(userOptedTo => {
 		if (userOptedTo.playAgain){
             spacesFilled = 0;
-			AlreadyGuessedList = "";
-			lettersAlreadyGuessedListArray = [];
+			TheGuessedList = "";
+			lettersGuessedList = [];
 			
 			console.log("Glad to see you are back. Let's begin...");
 			startGame();
