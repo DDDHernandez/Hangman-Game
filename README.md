@@ -6,7 +6,7 @@ Play hangman in Node. The theme is cities surrounding the Kansas City Metro area
 
 This is a solo project I did for class
 
-Before you start you will need to download node inquirer and is-letter
+Before you start you will need to download node inquirer and is-letter.
 This will allow me to ask you questions for the game and check to see if the key you pressed is an actual letter (a-z) and not a number or symbol.
 
 Thanks for checking out my project!
