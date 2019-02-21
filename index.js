@@ -5,9 +5,7 @@ var Word = require("./word.js");
 var inquirer = require("inquirer");
 var isLetter = require('is-letter');
 
-//When user guesses correctly, set this variable to true for that letter. The default value will be false.
 //Our word bank
-//Choose random word from wordList.
 var PlayerGuessedCorrect = false;
 var wordList = ["KansasCity", "LeesSummit", "GrainValley", "SaintJoseph", "Independence", "BlueSprings", "Smithville", "Columbia", "Maryville"];
 var randomWordtoGuess;
@@ -116,7 +114,6 @@ function Usersguessedletter(){
       }
   }
 ]).then(function(guess) {
-	//Convert all letters to upper case.
     guess.letter.toUpperCase();
 	console.log("You guessed: " + guess.letter.toUpperCase());
 	PlayerGuessedCorrect = false;
@@ -196,7 +193,6 @@ function DidUserWin() {
 
 }
 
-//ask user if they want to play again.
 function Retry() {
 	var playAgain = [
 	 {
